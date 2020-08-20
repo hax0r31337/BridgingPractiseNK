@@ -12,6 +12,7 @@
     },
     "pra":{
         "instabreak":false,
+        "breakparticle":true,
         "breakdelay":300,
         "falldmgtip":true,
         "falllagdmg":20,
@@ -19,5 +20,7 @@
         "pvpprotect":false,
         "candrop":false,
         "time":1000,
-        "disabledmg":["VOID","MAGIC","FALL"]    }
+        "command":"bpractise",
+        "disabledmg":["VOID","MAGIC","FALL"]
+    }
 }

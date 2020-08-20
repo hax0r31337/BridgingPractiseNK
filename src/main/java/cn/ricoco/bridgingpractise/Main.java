@@ -35,7 +35,7 @@ public class Main extends PluginBase {
         }
         LevelUtils.loadLevel(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"));
         getServer().getPluginManager().registerEvents(new EventLauncher(this), this);
-        plugin.getServer().getCommandMap().register("bpractise",new RunCommand("bpractise","Bridging Practise"));
+        plugin.getServer().getCommandMap().register("bpractise",new RunCommand(variable.configjson.getJSONObject("pra").getString("command"),"Bridging Practise"));
         variable.lowy=variable.configjson.getJSONObject("pos").getDouble("lowy");
         PluginTick.StartTick();
     }

@@ -7,6 +7,7 @@ import cn.nukkit.command.CommandSender;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Position;
 import cn.nukkit.math.Vector3;
+import cn.ricoco.bridgingpractise.Plugin.ClearBlocks;
 import cn.ricoco.bridgingpractise.Utils.PlayerUtils;
 import cn.ricoco.bridgingpractise.variable;
 import com.alibaba.fastjson.JSONObject;
@@ -48,7 +49,7 @@ public class RunCommand extends Command {
                 break;
             case "leave":
                 if(levelName==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
-                    //insta remove blocks
+                    new ClearBlocks(variable.blockpos.remove(p.getName()),variable.blocklength.remove(p.getName()),true);
                     p.setGamemode(variable.playergamemode.get(pname));
                     p.getInventory().setContents(variable.playerinv.remove(pname).getContents());
                     variable.playerresp.remove(pname);
