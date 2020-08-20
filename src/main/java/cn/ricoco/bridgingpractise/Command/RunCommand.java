@@ -29,13 +29,17 @@ public class RunCommand extends Command {
                 if(levelName!=variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
                     Map<Integer,Position> m=new HashMap<>();
                     variable.blockpos.put(pname,m);
+                    variable.playergamemode.put(pname,p.getGamemode());
                     variable.blocklength.put(pname,0);
                     variable.playerinv.put(pname,p.getInventory());
                     variable.playerhunger.put(pname,p.getFoodData().getLevel());
-                    JSONObject j=variable.configjson.getJSONObject("block").getJSONObject("pra");
+                    JSONObject j=variable.configjson.getJSONObject("block").getJSONObject("pickaxe");
+                    PlayerUtils.addItemToPlayer(p,Item.get(j.getInteger("id"),j.getInteger("d"),1));
+                    j=variable.configjson.getJSONObject("block").getJSONObject("pra");
                     PlayerUtils.addItemToPlayer(p,Item.get(j.getInteger("id"),j.getInteger("d"),j.getInteger("c")));
                     Position pos=Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("pra").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("pra").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("pra").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")));
                     p.teleport(pos);
+                    p.setGamemode(0);
                     variable.playerresp.put(pname,pos);
                     sender.sendMessage(variable.langjson.getString("joinedarena"));
                 }else{
@@ -45,6 +49,7 @@ public class RunCommand extends Command {
             case "leave":
                 if(levelName==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
                     //insta remove blocks
+                    p.setGamemode(variable.playergamemode.get(pname));
                     p.getInventory().setContents(variable.playerinv.remove(pname).getContents());
                     variable.playerresp.remove(pname);
                     p.getFoodData().setLevel(variable.playerhunger.remove(pname));

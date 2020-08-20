@@ -1,0 +1,12 @@
+{
+    "usage":"USAGE:/bpractise <join/leave>",
+    "notplayer":"YOU MUST BE A PLAYER TO USE THIS COMMAND.",
+    "joinedarena":"Joined Arena.",
+    "stillinarena":"Join Arena Failed.You are in the arena.",
+    "leavearena":"Leaved Arena.",
+    "notinarena":"Leaved Arena Failed.You not in the arena.",
+    "completebridge":"VICTORY",
+    "setresp":"Respawn Setted",
+    "falldmgtip":"FALL DAMAGE %1 HP",
+    "cantdrop":"You can't drop this item."
+}

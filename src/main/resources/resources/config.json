@@ -1,0 +1,23 @@
+{
+    "block":{
+        "pra":{"id":24,"d":0,"c":64},
+        "stop":{"id":152,"d":0},
+        "res":{"id":133,"d":0},
+        "pickaxe":{"id":278,"d":0}
+    },
+    "pos":{
+        "lowy":13.0,
+        "pra":{"x":128.0,"y":21.0,"z":135.0,"l":"bpractise"},
+        "exit":{"x":128.0,"y":70.0,"z":128.0,"l":"world"}
+    },
+    "pra":{
+        "instabreak":false,
+        "breakdelay":300,
+        "falldmgtip":true,
+        "falllagdmg":20,
+        "iffalllagdmg":true,
+        "pvpprotect":false,
+        "candrop":false,
+        "time":1000,
+        "disabledmg":["VOID","MAGIC","FALL"]    }
+}
