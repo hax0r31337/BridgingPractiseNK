@@ -1,0 +1,6 @@
+name: BridgingPractise
+main: cn.ricoco.bridgingpractise.Main
+version: "1.0"
+author: Ricoco
+api: ["1.0.8"]
+description: A bridging practise plugin helps you practise your bridging ability.
