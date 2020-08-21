@@ -11,7 +11,7 @@
     "pos":{
         "lowy":0.0,
         "pra":{"x":4.5,"y":24.0,"z":10.5,"l":"bpractise"},
-        "exit":{"x":%1,"y":%2,"z":%3,"l":"world"}
+        "exit":{"x":%1,"y":%2,"z":%3,"l":"%4"}
     },
     "pra":{
         "language":"en_us",
