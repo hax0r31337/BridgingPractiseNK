@@ -1,5 +1,6 @@
 package cn.ricoco.bridgingpractise.Utils;
 
+import cn.nukkit.level.Level;
 import cn.ricoco.bridgingpractise.Main;
 import cn.nukkit.Server;
 
@@ -22,5 +23,19 @@ public class LevelUtils {
     public static void unloadLevel(String string){
         Main m= Main.getPlugin();
         m.getServer().unloadLevel(m.getServer().getLevelByName(string));
+    }
+    public static void setLevelWeather(Level level, String mode){
+        if (!mode.equals("clear")) {
+            if(mode.equals("rain")){
+                level.setRaining(true);
+                level.setThundering(false);
+            }else if(mode.equals("thunder")){
+                level.setThundering(true);
+                level.setRaining(false);
+            }
+        } else {
+            level.setRaining(false);
+            level.setThundering(false);
+        }
     }
 }

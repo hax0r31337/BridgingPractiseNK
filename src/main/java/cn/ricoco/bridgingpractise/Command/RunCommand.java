@@ -22,7 +22,7 @@ public class RunCommand extends Command {
     @Override
     public boolean execute(CommandSender sender, String s, String[] args) {
         if(!sender.isPlayer()){sender.sendMessage(variable.langjson.getString("notplayer"));return false;}
-        if(args.length!=1){sender.sendMessage(variable.langjson.getString("usage"));return false;}
+        if(args.length!=1){sender.sendMessage(variable.langjson.getString("usage").replaceAll("%1",variable.configjson.getJSONObject("pra").getString("command")));return false;}
         Player p= Server.getInstance().getPlayer(sender.getName());
         String levelName=p.getPosition().getLevel().getName(),pname=p.getName();
         switch (args[0]){
@@ -32,8 +32,9 @@ public class RunCommand extends Command {
                     variable.blockpos.put(pname,m);
                     variable.playergamemode.put(pname,p.getGamemode());
                     variable.blocklength.put(pname,0);
-                    variable.playerinv.put(pname,p.getInventory());
+                    variable.playerinv.put(pname,p.getInventory().getContents());
                     variable.playerhunger.put(pname,p.getFoodData().getLevel());
+                    p.getInventory().clearAll();
                     JSONObject j=variable.configjson.getJSONObject("block").getJSONObject("pickaxe");
                     PlayerUtils.addItemToPlayer(p,Item.get(j.getInteger("id"),j.getInteger("d"),1));
                     j=variable.configjson.getJSONObject("block").getJSONObject("pra");
@@ -51,7 +52,7 @@ public class RunCommand extends Command {
                 if(levelName==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
                     new ClearBlocks(variable.blockpos.remove(p.getName()),variable.blocklength.remove(p.getName()),true);
                     p.setGamemode(variable.playergamemode.get(pname));
-                    p.getInventory().setContents(variable.playerinv.remove(pname).getContents());
+                    p.getInventory().setContents(variable.playerinv.remove(pname));
                     variable.playerresp.remove(pname);
                     p.getFoodData().setLevel(variable.playerhunger.remove(pname));
                     p.teleport(Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("exit").getString("l"))));
@@ -61,7 +62,7 @@ public class RunCommand extends Command {
                 }
                 break;
             default:
-                sender.sendMessage(variable.langjson.getString("usage"));
+                sender.sendMessage(variable.langjson.getString("usage").replaceAll("%1",variable.configjson.getJSONObject("pra").getString("command")));
         }
         return false;
     }

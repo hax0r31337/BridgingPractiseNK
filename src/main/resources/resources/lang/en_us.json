@@ -1,5 +1,5 @@
 {
-    "usage":"USAGE:/bpractise <join/leave>",
+    "usage":"USAGE:/%1 <join/leave>",
     "notplayer":"YOU MUST BE A PLAYER TO USE THIS COMMAND.",
     "joinedarena":"Joined Arena.",
     "stillinarena":"Join Arena Failed.You are in the arena.",
@@ -8,5 +8,7 @@
     "completebridge":"VICTORY",
     "setresp":"Respawn Setted",
     "falldmgtip":"FALL DAMAGE %1 HP",
-    "cantdrop":"You can't drop this item."
+    "cantdrop":"You can't drop this item.",
+    "cmddisable":"This command is disable in bridging practise.",
+    "prompt":"%1Blocks/s | Distance %2 | Farthest %3"
 }

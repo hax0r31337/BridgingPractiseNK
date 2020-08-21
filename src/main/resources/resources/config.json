@@ -11,6 +11,7 @@
         "exit":{"x":128.0,"y":70.0,"z":128.0,"l":"world"}
     },
     "pra":{
+        "language":"en_us",
         "instabreak":false,
         "breakparticle":true,
         "breakdelay":300,
@@ -19,8 +20,10 @@
         "iffalllagdmg":true,
         "pvpprotect":false,
         "candrop":false,
-        "time":1000,
+        "time":7000,
+        "weather":"clear",
         "command":"bpractise",
-        "disabledmg":["VOID","MAGIC","FALL"]
+        "disabledmg":["VOID","MAGIC","FALL"],
+        "enablecmd":["bpractise"]
     }
 }

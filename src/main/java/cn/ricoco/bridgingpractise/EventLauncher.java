@@ -11,10 +11,7 @@ import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.event.block.BlockPlaceEvent;
 import cn.nukkit.event.entity.EntityDamageByEntityEvent;
 import cn.nukkit.event.entity.EntityDamageEvent;
-import cn.nukkit.event.player.PlayerDropItemEvent;
-import cn.nukkit.event.player.PlayerJoinEvent;
-import cn.nukkit.event.player.PlayerMoveEvent;
-import cn.nukkit.event.player.PlayerQuitEvent;
+import cn.nukkit.event.player.*;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Position;
 import cn.nukkit.math.Vector3;
@@ -32,23 +29,33 @@ public class EventLauncher implements Listener {
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent e){
-        if(e.isCancelled()){return;}
-        if(e.getPlayer().getPosition().getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")&&!variable.configjson.getJSONObject("pra").getBoolean("candrop")){
+        if(e.getPlayer().getPosition().getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
             new DelayTP(e.getPlayer(),Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("exit").getString("l"))),3000);
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onQuit(PlayerQuitEvent e){
-        if(e.isCancelled()){return;}
         Player p=e.getPlayer();
-        if(p.getPosition().getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")&&!variable.configjson.getJSONObject("pra").getBoolean("candrop")){
+        if(p.getPosition().getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
             String pname=p.getName();
             new ClearBlocks(variable.blockpos.remove(p.getName()),variable.blocklength.remove(p.getName()),true);
             p.setGamemode(variable.playergamemode.get(pname));
-            p.getInventory().setContents(variable.playerinv.remove(pname).getContents());
+            p.getInventory().setContents(variable.playerinv.remove(pname));
             variable.playerresp.remove(pname);
             p.getFoodData().setLevel(variable.playerhunger.remove(pname));
             p.teleport(Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("exit").getString("l"))));
+        }
+    }
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onCommand(PlayerCommandPreprocessEvent e){
+        if(e.isCancelled()){return;}
+        Player p=e.getPlayer();
+        if(p.getPosition().getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
+            String cmd=e.getMessage().substring(1).split(" ")[0];
+            if(!variable.configjson.getJSONObject("pra").getJSONArray("enablecmd").contains(cmd)){
+                e.setCancelled();
+                p.sendMessage(variable.langjson.getString("cmddisable"));
+            }
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -103,7 +110,7 @@ public class EventLauncher implements Listener {
         Position pos=p.getPosition();
         if(pos.getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
             String c=e.getCause().toString();
-            if(variable.disabledmg.indexOf(c)!=-1){e.setCancelled();}
+            if(variable.disabledmg.contains(c)){e.setCancelled();}
             if(c=="FALL"){
                 JSONObject json=variable.configjson.getJSONObject("pra");
                 if(json.getBoolean("iffalllagdmg")&&json.getFloat("falllagdmg")<=e.getDamage()){
