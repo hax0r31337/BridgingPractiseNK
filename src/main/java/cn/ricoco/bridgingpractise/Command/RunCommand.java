@@ -34,6 +34,8 @@ public class RunCommand extends Command {
                     variable.blocklength.put(pname,0);
                     variable.playerinv.put(pname,p.getInventory().getContents());
                     variable.playerhunger.put(pname,p.getFoodData().getLevel());
+                    variable.blocksecond.put(pname,0);
+                    variable.blockmax.put(pname,0);
                     p.getInventory().clearAll();
                     JSONObject j=variable.configjson.getJSONObject("block").getJSONObject("pickaxe");
                     PlayerUtils.addItemToPlayer(p,Item.get(j.getInteger("id"),j.getInteger("d"),1));
@@ -54,6 +56,8 @@ public class RunCommand extends Command {
                     p.setGamemode(variable.playergamemode.get(pname));
                     p.getInventory().setContents(variable.playerinv.remove(pname));
                     variable.playerresp.remove(pname);
+                    variable.blocksecond.remove(pname);
+                    variable.blockmax.remove(pname);
                     p.getFoodData().setLevel(variable.playerhunger.remove(pname));
                     p.teleport(Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("exit").getString("l"))));
                     sender.sendMessage(variable.langjson.getString("leavearena"));

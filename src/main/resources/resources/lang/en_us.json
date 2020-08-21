@@ -10,5 +10,6 @@
     "falldmgtip":"FALL DAMAGE %1 HP",
     "cantdrop":"You can't drop this item.",
     "cmddisable":"This command is disable in bridging practise.",
-    "prompt":"%1Blocks/s | Distance %2 | Farthest %3"
+    "prompt":"%1 Blocks/s | Distance %2 | Farthest %3",
+    "backresp":"Return to Respawn"
 }

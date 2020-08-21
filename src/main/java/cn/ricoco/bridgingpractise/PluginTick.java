@@ -16,8 +16,9 @@ public class PluginTick {
 }
 class Runner implements Runnable{
     public void run() {
-        String lname=variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"),weatherstr=variable.configjson.getJSONObject("pra").getString("weather");
+        String promptstr=variable.langjson.getString("prompt"),lname=variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"),weatherstr=variable.configjson.getJSONObject("pra").getString("weather");
         int ltime=variable.configjson.getJSONObject("pra").getInteger("time");
+        Boolean prompt=variable.configjson.getJSONObject("pra").getBoolean("prompt");
         while (true){
             try{
                 Thread.sleep(1000);
@@ -29,6 +30,10 @@ class Runner implements Runnable{
                     if(p.getPosition().getLevel().getName()==lname){
                         arenac++;
                         p.getFoodData().setLevel(20);
+                        if(prompt){
+                            p.sendPopup(promptstr.replaceAll("%1",variable.blocksecond.get(p.getName())+"").replaceAll("%2",variable.blocklength.get(p.getName())+"").replaceAll("%3",variable.blockmax.get(p.getName())+""));
+                        }
+                        variable.blocksecond.put(p.getName(),0);
                     }
                 }
                 if(arenac>0){

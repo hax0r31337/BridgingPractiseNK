@@ -25,7 +25,10 @@ public class Main extends PluginBase {
         new File("./plugins/BridgingPractise/lang/").mkdir();
         if(!new File("./plugins/BridgingPractise/config.json").exists()){
             Position ws=Server.getInstance().getLevelByName("world").getSpawnLocation();
-            FileUtils.ReadJar("resources/config.json","./plugins/BridgingPractise/config.json");
+            String cfgpath="./plugins/BridgingPractise/config.json";
+            Position wpos=Server.getInstance().getLevelByName("world").getSafeSpawn();
+            FileUtils.ReadJar("resources/config.json",cfgpath);
+            FileUtils.writeFile(cfgpath,FileUtils.readFile(cfgpath).replaceAll("%1",wpos.x+"").replaceAll("%2",wpos.y+"").replaceAll("%3",wpos.z+""));
             LevelUtils.unzip("bpractise");
         }
         if(!new File("./plugins/BridgingPractise/lang/en_us.json").exists()){

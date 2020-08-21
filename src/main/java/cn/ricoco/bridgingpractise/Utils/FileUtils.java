@@ -70,21 +70,13 @@ public class FileUtils {
             return null;
         }
     }
-    public static void writeFile(String path,String text){
-        File file = new File(path);
-        if(!file.exists()) {
-            try {
-                if (file.getParentFile() != null && !file.getParentFile().exists()) {
-                    file.getParentFile().mkdirs();
-                }
-                file.createNewFile();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
-                writer.write(text);
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public static void writeFile(String path,String text) {
+        try {
+            FileWriter FW = new FileWriter(new File(path));
+            FW.write(text);
+            FW.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     public static void ReadJar(String fileName,String path){

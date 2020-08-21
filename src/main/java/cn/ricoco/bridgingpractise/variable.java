@@ -15,6 +15,8 @@ public class variable {
     public static Double lowy;
     public static Map<String,Map> blockpos=new HashMap<>();
     public static Map<String,Integer> blocklength=new HashMap<>();
+    public static Map<String,Integer> blocksecond=new HashMap<>();
+    public static Map<String,Integer> blockmax=new HashMap<>();
     public static Map<String,Position> playerresp=new HashMap<>();
     public static Map<String,Map> playerinv=new HashMap<>();
     public static Map<String,Integer> playerhunger=new HashMap<>();

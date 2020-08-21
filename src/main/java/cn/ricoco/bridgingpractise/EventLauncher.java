@@ -15,12 +15,14 @@ import cn.nukkit.event.player.*;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Position;
 import cn.nukkit.math.Vector3;
+import cn.nukkit.potion.Effect;
 import cn.ricoco.bridgingpractise.Plugin.ClearBlocks;
 import cn.ricoco.bridgingpractise.Plugin.DelayTP;
 import com.alibaba.fastjson.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
+
+import static cn.ricoco.bridgingpractise.Utils.PlayerUtils.ClearBL;
 
 public class EventLauncher implements Listener {
     private final Main plugin;
@@ -74,31 +76,33 @@ public class EventLauncher implements Listener {
         Position pos=p.getPosition();
         if(pos.getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
             if(pos.getY()<variable.lowy){
-                p.teleport(variable.playerresp.get(p.getName()));
-                new ClearBlocks(variable.blockpos.remove(p.getName()),variable.blocklength.remove(p.getName()),variable.configjson.getJSONObject("pra").getBoolean("instabreak"));
-                Map<Integer,Position> m=new HashMap<>();
-                variable.blockpos.put(p.getName(),m);
-                variable.blocklength.put(p.getName(),0);
-                variable.playeronresp.put(p.getName(),true);
+                ClearBL(p);
                 return;
             }
             int bid=Position.fromObject(new Vector3(pos.x, pos.y-1, pos.z), pos.level).getLevelBlock().getId();
-            if(bid==variable.configjson.getJSONObject("block").getJSONObject("res").getInteger("id")){
+            if(bid==variable.configjson.getJSONObject("block").getInteger("res")){
                 if(!variable.playeronresp.get(p.getName())){
                     p.sendTitle(variable.langjson.getString("setresp"));
                     variable.playeronresp.put(p.getName(),true);
+                    Block bl=Position.fromObject(new Vector3(pos.x, pos.y-1, pos.z), pos.level).getLevelBlock();
+                    variable.playerresp.put(p.getName(),Position.fromObject(new Vector3(bl.x+0.5,bl.y+1,bl.z+0.5),pos.level));
                     return;
                 }
             }else{
                 variable.playeronresp.put(p.getName(),false);
             }
-            if(bid==variable.configjson.getJSONObject("block").getJSONObject("stop").getInteger("id")){
+            if(bid==variable.configjson.getJSONObject("block").getInteger("stop")){
                 p.sendTitle(variable.langjson.getString("completebridge"));
-                new ClearBlocks(variable.blockpos.remove(p.getName()),variable.blocklength.remove(p.getName()),variable.configjson.getJSONObject("pra").getBoolean("instabreak"));
-                Map<Integer,Position> m=new HashMap<>();
-                variable.blockpos.put(p.getName(),m);
-                variable.blocklength.put(p.getName(),0);
-                p.teleport(variable.playerresp.get(p.getName()));
+                ClearBL(p);
+                return;
+            }
+            if(bid==variable.configjson.getJSONObject("block").getInteger("backres")){
+                p.sendTitle(variable.langjson.getString("backresp"));
+                p.teleport(Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("pra").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("pra").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("pra").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))));
+                return;
+            }
+            if(bid==variable.configjson.getJSONObject("block").getInteger("speedup")){
+                p.addEffect(Effect.getEffect(1).setAmplifier(variable.configjson.getJSONObject("pra").getInteger("speedlv")).setDuration(variable.configjson.getJSONObject("pra").getInteger("speedtick")).setVisible(false));
                 return;
             }
         }
@@ -114,11 +118,7 @@ public class EventLauncher implements Listener {
             if(c=="FALL"){
                 JSONObject json=variable.configjson.getJSONObject("pra");
                 if(json.getBoolean("iffalllagdmg")&&json.getFloat("falllagdmg")<=e.getDamage()){
-                    p.teleport(variable.playerresp.get(p.getName()));
-                    new ClearBlocks(variable.blockpos.remove(p.getName()),variable.blocklength.remove(p.getName()),variable.configjson.getJSONObject("pra").getBoolean("instabreak"));
-                    Map<Integer,Position> m=new HashMap<>();
-                    variable.blockpos.put(p.getName(),m);
-                    variable.blocklength.put(p.getName(),0);
+                    ClearBL(p);
                 }
                 if(json.getBoolean("falldmgtip")){
                     p.sendTitle(variable.langjson.getString("falldmgtip").replaceAll("%1",e.getDamage()+""));
@@ -143,6 +143,7 @@ public class EventLauncher implements Listener {
             Map m=variable.blockpos.get(p.getName());
             m.put(variable.blocklength.get(p.getName()),Position.fromObject(new Vector3(b.x,b.y,b.z),b.level));
             variable.blocklength.put(p.getName(),variable.blocklength.get(p.getName())+1);
+            variable.blocksecond.put(p.getName(),variable.blocksecond.get(p.getName())+1);
             e.setCancelled();
             b.level.setBlockAt((int)b.x,(int)b.y,(int)b.z,b.getId(),b.getDamage());
         }
