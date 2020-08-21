@@ -4,6 +4,7 @@ import cn.ricoco.bridgingpractise.Main;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.StandardCopyOption;
 import java.util.Base64;
 import java.util.jar.JarEntry;
@@ -56,7 +57,6 @@ public class FileUtils {
         out.close();
     }
     public static String readFile(String fileName) {
-        String encoding = "UTF-8";
         File file = new File(fileName);
         Long filelength = file.length();
         byte[] filecontent = new byte[filelength.intValue()];
@@ -64,7 +64,7 @@ public class FileUtils {
             FileInputStream in = new FileInputStream(file);
             in.read(filecontent);
             in.close();
-            return new String(filecontent, encoding);
+            return new String(filecontent, StandardCharsets.UTF_8);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -72,9 +72,9 @@ public class FileUtils {
     }
     public static void writeFile(String path,String text) {
         try {
-            FileWriter FW = new FileWriter(new File(path));
-            FW.write(text);
-            FW.close();
+            Writer writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8));
+            writer.write(text);
+            writer.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
