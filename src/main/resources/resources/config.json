@@ -5,11 +5,12 @@
         "res":133,
         "speedup":41,
         "backres":22,
+        "elevator":138,
         "pickaxe":{"id":278,"d":0}
     },
     "pos":{
-        "lowy":13.0,
-        "pra":{"x":128.0,"y":21.0,"z":135.0,"l":"bpractise"},
+        "lowy":0.0,
+        "pra":{"x":4.5,"y":24.0,"z":10.5,"l":"bpractise"},
         "exit":{"x":%1,"y":%2,"z":%3,"l":"world"}
     },
     "pra":{
@@ -23,12 +24,11 @@
         "pvpprotect":false,
         "candrop":false,
         "prompt":true,
-        "speedlv":2,
-        "speedtick":200,
+        "speedlv":10,
+        "speedtick":100,
         "time":700,
         "weather":"clear",
         "command":"bpractise",
-        "disabledmg":["VOID","MAGIC","FALL"],
         "enablecmd":["bpractise"]
     }
 }

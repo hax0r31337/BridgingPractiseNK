@@ -21,5 +21,6 @@ public class variable {
     public static Map<String,Map> playerinv=new HashMap<>();
     public static Map<String,Integer> playerhunger=new HashMap<>();
     public static Map<String,Boolean> playeronresp=new HashMap<>();
+    public static Map<String,Boolean> playeronelevator=new HashMap<>();
     public static Map<String,Integer> playergamemode=new HashMap<>();
 }

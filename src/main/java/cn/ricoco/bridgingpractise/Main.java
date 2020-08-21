@@ -1,6 +1,7 @@
 package cn.ricoco.bridgingpractise;
 
 import cn.ricoco.bridgingpractise.Command.RunCommand;
+import cn.ricoco.bridgingpractise.Plugin.MetricsLite;
 import cn.ricoco.bridgingpractise.Utils.FileUtils;
 import cn.ricoco.bridgingpractise.Utils.LevelUtils;
 import cn.nukkit.Server;
@@ -55,6 +56,11 @@ public class Main extends PluginBase {
         plugin.getServer().getCommandMap().register(variable.configjson.getJSONObject("pra").getString("command"),new RunCommand(variable.configjson.getJSONObject("pra").getString("command"),"Bridging Practise"));
         variable.lowy=variable.configjson.getJSONObject("pos").getDouble("lowy");
         PluginTick.StartTick();
+        try {
+            new MetricsLite(this,8604);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void onDisable() {

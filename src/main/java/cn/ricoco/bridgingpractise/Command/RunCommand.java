@@ -42,10 +42,12 @@ public class RunCommand extends Command {
                     j=variable.configjson.getJSONObject("block").getJSONObject("pra");
                     PlayerUtils.addItemToPlayer(p,Item.get(j.getInteger("id"),j.getInteger("d"),j.getInteger("c")));
                     Position pos=Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("pra").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("pra").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("pra").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")));
+                    variable.playerresp.put(pname,pos);
+                    variable.playeronresp.put(pname,false);
+                    variable.playeronelevator.put(pname,false);
+                    sender.sendMessage(variable.langjson.getString("joinedarena"));
                     p.teleport(pos);
                     p.setGamemode(0);
-                    variable.playerresp.put(pname,pos);
-                    sender.sendMessage(variable.langjson.getString("joinedarena"));
                 }else{
                     sender.sendMessage(variable.langjson.getString("stillinarena"));
                 }
@@ -58,6 +60,8 @@ public class RunCommand extends Command {
                     variable.playerresp.remove(pname);
                     variable.blocksecond.remove(pname);
                     variable.blockmax.remove(pname);
+                    variable.playeronresp.remove(pname);
+                    variable.playeronelevator.remove(pname);
                     p.getFoodData().setLevel(variable.playerhunger.remove(pname));
                     p.teleport(Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("exit").getString("l"))));
                     sender.sendMessage(variable.langjson.getString("leavearena"));

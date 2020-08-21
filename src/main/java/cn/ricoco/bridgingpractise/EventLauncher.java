@@ -13,6 +13,7 @@ import cn.nukkit.event.entity.EntityDamageByEntityEvent;
 import cn.nukkit.event.entity.EntityDamageEvent;
 import cn.nukkit.event.player.*;
 import cn.nukkit.item.Item;
+import cn.nukkit.level.Level;
 import cn.nukkit.level.Position;
 import cn.nukkit.math.Vector3;
 import cn.nukkit.potion.Effect;
@@ -98,12 +99,39 @@ public class EventLauncher implements Listener {
             }
             if(bid==variable.configjson.getJSONObject("block").getInteger("backres")){
                 p.sendTitle(variable.langjson.getString("backresp"));
+                variable.playeronresp.put(p.getName(),true);
                 p.teleport(Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("pra").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("pra").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("pra").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))));
                 return;
             }
             if(bid==variable.configjson.getJSONObject("block").getInteger("speedup")){
                 p.addEffect(Effect.getEffect(1).setAmplifier(variable.configjson.getJSONObject("pra").getInteger("speedlv")).setDuration(variable.configjson.getJSONObject("pra").getInteger("speedtick")).setVisible(false));
                 return;
+            }
+            int eid=variable.configjson.getJSONObject("block").getInteger("elevator");
+            if(bid==eid){
+                if(!variable.playeronelevator.get(p.getName())){
+                    variable.playeronelevator.put(p.getName(),true);
+                    Position tppos=null;
+                    Double posx=pos.x,posy=pos.y-1,posz=pos.z;
+                    Level posl=pos.level;
+                    for(int i = 0; i<255; i++){
+                        if(i==posy){
+                            continue;
+                        }
+                        if(Position.fromObject(new Vector3(posx,i,posz),posl).getLevelBlock().getId()==eid){
+                            tppos=Position.fromObject(new Vector3(posx,i+1,posz),posl);
+                            break;
+                        }
+                    }
+                    if(tppos==null){
+                        p.sendMessage(variable.langjson.getString("tpfailed"));
+                    }else{
+                        p.teleport(tppos);
+                    }
+                    return;
+                }
+            }else{
+                variable.playeronelevator.put(p.getName(),false);
             }
         }
     }
@@ -114,7 +142,7 @@ public class EventLauncher implements Listener {
         Position pos=p.getPosition();
         if(pos.getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
             String c=e.getCause().toString();
-            if(variable.disabledmg.contains(c)){e.setCancelled();}
+            e.setCancelled();
             if(c=="FALL"){
                 JSONObject json=variable.configjson.getJSONObject("pra");
                 if(json.getBoolean("iffalllagdmg")&&json.getFloat("falllagdmg")<=e.getDamage()){

@@ -13,6 +13,7 @@ public class LevelUtils {
         new File("./worlds/"+dir+"/region/").mkdirs();
         ReadJar("resources/level/level.dat","./worlds/"+dir+"/level.dat");
         ReadJar("resources/level/region/r.0.0.mca","./worlds/"+dir+"/region/r.0.0.mca");
+        ReadJar("resources/level/region/r.0.1.mca","./worlds/"+dir+"/region/r.0.1.mca");
         ReadJar("resources/level/region/r.0.-1.mca","./worlds/"+dir+"/region/r.0.-1.mca");
         ReadJar("resources/level/region/r.-1.0.mca","./worlds/"+dir+"/region/r.-1.0.mca");
         ReadJar("resources/level/region/r.-1.-1.mca","./worlds/"+dir+"/region/r.-1.-1.mca");
