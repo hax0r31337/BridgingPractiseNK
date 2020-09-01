@@ -24,7 +24,7 @@ public class FileUtils {
     }
     public static void Copydir(String oridir,String todir) throws IOException {
         File[] flist=new File(oridir).listFiles();
-        for(var i=0;i<flist.length;i++){
+        for(int i=0;i<flist.length;i++){
             if(flist[i].isFile()){
                 CopyFile(flist[i],new File(new File(todir).getPath()+"/"+flist[i].getName()));
             }else{
@@ -36,7 +36,7 @@ public class FileUtils {
     }
     public static void deldir(String dir) throws IOException {
         File[] flist=new File(dir).listFiles();
-        for(var i=0;i<flist.length;i++){
+        for(int i=0;i<flist.length;i++){
             if(flist[i].isFile()){
                 flist[i].delete();
             }else{
@@ -47,7 +47,7 @@ public class FileUtils {
     public static void unescapeB64(String b64,String outdir) throws IOException {
         byte[] b=Base64.getDecoder().decode(b64);
         FileOutputStream out=new FileOutputStream(outdir);
-        for (var  i=0;i<b.length;++i) {
+        for (int i=0;i<b.length;++i) {
             if (b[i] < 0) {
                 b[i] += 256;
             }

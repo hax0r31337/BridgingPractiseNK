@@ -8,7 +8,7 @@
     <artifactId>BridgingPractise</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
-        <java.version>14</java.version>
+        <java.version>8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
