@@ -27,7 +27,7 @@ class Runner implements Runnable{
                 if(pl.length==0){continue;}
                 for(int i=0;i<pl.length;i++){
                     Player p= (Player) pl[i];
-                    if(p.getPosition().getLevel().getName()==lname){
+                    if(p.getPosition().getLevel().getName().equals(lname)){
                         arenac++;
                         p.getFoodData().setLevel(20);
                         if(prompt){

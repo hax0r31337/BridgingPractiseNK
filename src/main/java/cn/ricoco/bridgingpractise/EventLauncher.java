@@ -32,14 +32,14 @@ public class EventLauncher implements Listener {
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent e){
-        if(e.getPlayer().getPosition().getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
+        if(e.getPlayer().getPosition().getLevel().getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
             new DelayTP(e.getPlayer(),Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("exit").getString("l"))),3000);
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onQuit(PlayerQuitEvent e){
         Player p=e.getPlayer();
-        if(p.getPosition().getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
+        if(p.getPosition().getLevel().getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
             String pname=p.getName();
             new ClearBlocks(variable.blockpos.remove(p.getName()),variable.blocklength.remove(p.getName()),true);
             p.setGamemode(variable.playergamemode.get(pname));
@@ -53,7 +53,7 @@ public class EventLauncher implements Listener {
     public void onCommand(PlayerCommandPreprocessEvent e){
         if(e.isCancelled()){return;}
         Player p=e.getPlayer();
-        if(p.getPosition().getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
+        if(p.getPosition().getLevel().getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
             String cmd=e.getMessage().substring(1).split(" ")[0];
             if(!variable.configjson.getJSONObject("pra").getJSONArray("enablecmd").contains(cmd)){
                 e.setCancelled();
@@ -65,7 +65,7 @@ public class EventLauncher implements Listener {
     public void onDrop(PlayerDropItemEvent e){
         if(e.isCancelled()){return;}
         Player p=e.getPlayer();
-        if(p.getPosition().getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")&&!variable.configjson.getJSONObject("pra").getBoolean("candrop")){
+        if(p.getPosition().getLevel().getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")) &&!variable.configjson.getJSONObject("pra").getBoolean("candrop")){
             e.setCancelled();
             p.sendMessage(variable.langjson.getString("cantdrop"));
         }
@@ -75,7 +75,7 @@ public class EventLauncher implements Listener {
         if(e.isCancelled()){return;}
         Player p=e.getPlayer();
         Position pos=p.getPosition();
-        if(pos.getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
+        if(pos.getLevel().getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
             if(pos.getY()<variable.lowy){
                 ClearBL(p);
                 return;
@@ -140,10 +140,10 @@ public class EventLauncher implements Listener {
         if(e.isCancelled()){return;}
         Player p= Server.getInstance().getPlayer(e.getEntity().getName());
         Position pos=p.getPosition();
-        if(pos.getLevel().getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
+        if(pos.getLevel().getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
             String c=e.getCause().toString();
             e.setCancelled();
-            if(c=="FALL"){
+            if(c.equals("FALL")){
                 JSONObject json=variable.configjson.getJSONObject("pra");
                 if(json.getBoolean("iffalllagdmg")&&json.getFloat("falllagdmg")<=e.getDamage()){
                     ClearBL(p);
@@ -158,7 +158,7 @@ public class EventLauncher implements Listener {
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e){
         if(e.isCancelled()){return;}
         Entity en=e.getEntity();
-        if(variable.configjson.getJSONObject("pra").getBoolean("pvpprotect")&&en.getPosition().level.getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
+        if(variable.configjson.getJSONObject("pra").getBoolean("pvpprotect")&& en.getPosition().level.getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
             e.setCancelled();
         }
     }
@@ -166,7 +166,7 @@ public class EventLauncher implements Listener {
     public void onBlockPlaceEvent(BlockPlaceEvent e){
         if(e.isCancelled()){return;}
         Block b=e.getBlock();
-        if(b.level.getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
+        if(b.level.getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
             Player p=e.getPlayer();
             Map m=variable.blockpos.get(p.getName());
             m.put(variable.blocklength.get(p.getName()),Position.fromObject(new Vector3(b.x,b.y,b.z),b.level));
@@ -180,7 +180,7 @@ public class EventLauncher implements Listener {
     public void onBlockBreakEvent(BlockBreakEvent e){
         if(e.isCancelled()){return;}
         Block b=e.getBlock();
-        if(b.level.getName()==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
+        if(b.level.getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
             if(b.getId()==variable.configjson.getJSONObject("block").getJSONObject("pra").getInteger("id")){
                 Item[] dr={};
                 e.setDrops(dr);

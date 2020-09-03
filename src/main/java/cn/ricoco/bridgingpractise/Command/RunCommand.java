@@ -27,7 +27,7 @@ public class RunCommand extends Command {
         String levelName=p.getPosition().getLevel().getName(),pname=p.getName();
         switch (args[0]){
             case "join":
-                if(levelName!=variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
+                if(!levelName.equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
                     Map<Integer,Position> m=new HashMap<>();
                     variable.blockpos.put(pname,m);
                     variable.playergamemode.put(pname,p.getGamemode());
@@ -53,7 +53,7 @@ public class RunCommand extends Command {
                 }
                 break;
             case "leave":
-                if(levelName==variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l")){
+                if(levelName.equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
                     new ClearBlocks(variable.blockpos.remove(p.getName()),variable.blocklength.remove(p.getName()),true);
                     p.setGamemode(variable.playergamemode.get(pname));
                     p.getInventory().setContents(variable.playerinv.remove(pname));
