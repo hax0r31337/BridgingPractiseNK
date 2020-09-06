@@ -57,6 +57,12 @@ time 锁定练习区世界的时间
 weather 锁定练习区世界的天气(clear,rain,thunder)  
 command 搭路练习指令名(/值 join/leave)  
 enablecmd 练习区允许的指令(需包含插件指令否则玩家无法退出)(取指令名例如/kill @e就是kill)  
+enable - 启用等级系统  
+scoreboard - 显示积分版（需启动等级系统）  
+levelup - 升级提示  
+getexp - 获得经验提示  
+timeearn - 时间奖励(enable开关，sec时长，exp获得的经验)  
+blockearn - 方块奖励(enable-开关,bls-需要的方块,exp-获得的经验)  
   
 ## English  
   
@@ -112,3 +118,61 @@ time - Lock the time in the practice area world(int Time)
 weather - Lock the weather in the practice area world(clear,rain,thunder)  
 command - Command of bridging practise plugin(/value join/leave)  
 enablecmd - Commands allowed in the practice area(plugin commands must be included or the player cannot exit) (use the command name for example /kill @e is kill)
+enable - Enable the player Levelling System  
+scoreboard - Enable scoreboard(Need to enable levelling system)  
+levelup - LevelUP Prompt  
+getexp - GetExp Prompt  
+timeearn - “Time-Played" Exp (enable-enable?,sec-time,exp-earnd exp)  
+blockearn - exp earn when place block(enable-enable?,bls-need blocks,exp-earnd exp)  
+  
+# Update  
+  
+## Update 1.2 from 1.0/1.1  
+  
+从1.0/1.1升级插件  
+why i not put auto-update?  
+because it will lost the format of JSON  
+为什么不做一个自动升级配置文件？  
+因为会丢失json的格式  
+  
+### config.json  
+  
+All modify is in key "pra"  
+所有的修改都在pra键里  
+~~~  
+"victoryreplace": {"id": 169,"d": 0},  
+"exp": {  
+    "enable": true,  
+    "scoreboard": true,  
+    "levelup": true,  
+    "getexp": true,  
+    "timeearn": {"enable":true,"sec": 30,"exp": 5},  
+    "blockearn": {"enable":true,"bls": 50,"exp": 10}  
+},  
+"scoreboard": [  
+    "§fName: §a%player%",  
+    "§fLevel: §b%level%",  
+    "§fProcess: §b%lowProgcess%§f/§a%maxProgcess%",  
+    "Placed: §a%placed%",  
+    "§6§lMineBBS.com"  
+]  
+~~~  
+victoryreplace - 玩家搭路成功之后将玩家的方块替换成的方块  
+victoryreplace - Replaced block when player completed the bridge  
+scoreboard - 积分版内容  
+scoreboard - Scoreboard Text  
+  
+#### exp  
+  
+enable - 启用等级系统  
+enable - Enable the player Levelling System  
+scoreboard - 显示积分版（需启动等级系统）  
+scoreboard - Enable scoreboard(Need to enable levelling system)  
+levelup - 升级提示  
+levelup - LevelUP Prompt  
+getexp - 获得经验提示  
+getexp - GetExp Prompt  
+timeearn - 时间奖励(enable开关，sec时长，exp获得的经验)  
+timeearn - “Time-Played" Exp (enable-enable?,sec-time,exp-earnd exp)  
+blockearn - 方块奖励(enable-开关,bls-需要的方块,exp-获得的经验)  
+blockearn - exp earn when place block(enable-enable?,bls-need blocks,exp-earnd exp)  

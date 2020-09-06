@@ -185,18 +185,18 @@ public class EventLauncher implements Listener {
         Block b=e.getBlock();
         if(b.level.getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
             Player p=e.getPlayer();
-            Map m=variable.blockpos.get(p.getName());
-            m.put(variable.blocklength.get(p.getName()),Position.fromObject(new Vector3(b.x,b.y,b.z),b.level));
-            variable.blocklength.put(p.getName(),variable.blocklength.get(p.getName())+1);
-            variable.blocksecond.put(p.getName(),variable.blocksecond.get(p.getName())+1);
-            variable.playerBlock.put(p.getName(),variable.playerBlock.get(p.getName())+1);
-            JSONObject plj=variable.playerLevelJSON.get(p.getName());
-            plj.put("place",plj.getInteger("place")+1);
-            variable.playerLevelJSON.put(p.getName(),plj);
             e.setCancelled();
             int bid=Position.fromObject(new Vector3(b.x, b.y-1, b.z), b.level).getLevelBlock().getId();
             if(!variable.cantPlaceOn.contains(bid)&&!variable.cantPlaceOn.contains(Position.fromObject(new Vector3(b.x, b.y-2, b.z), b.level).getLevelBlock().getId())){
                 b.level.setBlockAt((int)b.x,(int)b.y,(int)b.z,b.getId(),b.getDamage());
+                Map m=variable.blockpos.get(p.getName());
+                m.put(variable.blocklength.get(p.getName()),Position.fromObject(new Vector3(b.x,b.y,b.z),b.level));
+                variable.blocklength.put(p.getName(),variable.blocklength.get(p.getName())+1);
+                variable.blocksecond.put(p.getName(),variable.blocksecond.get(p.getName())+1);
+                variable.playerBlock.put(p.getName(),variable.playerBlock.get(p.getName())+1);
+                JSONObject plj=variable.playerLevelJSON.get(p.getName());
+                plj.put("place",plj.getInteger("place")+1);
+                variable.playerLevelJSON.put(p.getName(),plj);
             }else{
                 p.sendMessage(variable.langjson.getString("cantplaceon"));
             }
