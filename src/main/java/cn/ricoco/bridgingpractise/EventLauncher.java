@@ -19,8 +19,12 @@ import cn.nukkit.math.Vector3;
 import cn.nukkit.potion.Effect;
 import cn.ricoco.bridgingpractise.Plugin.ClearBlocks;
 import cn.ricoco.bridgingpractise.Plugin.DelayTP;
+import cn.ricoco.bridgingpractise.Plugin.Exp;
+import cn.ricoco.bridgingpractise.Utils.EntityUtils;
+import cn.ricoco.bridgingpractise.Utils.FileUtils;
 import com.alibaba.fastjson.JSONObject;
 
+import java.io.File;
 import java.util.Map;
 
 import static cn.ricoco.bridgingpractise.Utils.PlayerUtils.ClearBL;
@@ -32,6 +36,15 @@ public class EventLauncher implements Listener {
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent e){
+        Player p=e.getPlayer();
+        String jsonPath="./plugins/BridgingPractise/players/"+p.getName()+".json";
+        if(!new File(jsonPath).exists()){
+            FileUtils.writeFile(jsonPath,"{\n" +
+                    "    \"level\":0,\n" +
+                    "    \"exp\":0,\n" +
+                    "    \"place\":0\n" +
+                    "}");
+        }
         if(e.getPlayer().getPosition().getLevel().getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
             new DelayTP(e.getPlayer(),Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("exit").getString("l"))),3000);
         }
@@ -40,11 +53,19 @@ public class EventLauncher implements Listener {
     public void onQuit(PlayerQuitEvent e){
         Player p=e.getPlayer();
         if(p.getPosition().getLevel().getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
-            String pname=p.getName();
-            new ClearBlocks(variable.blockpos.remove(p.getName()),variable.blocklength.remove(p.getName()),true);
+            String pname=p.getName();new ClearBlocks(variable.blockpos.remove(p.getName()),variable.blocklength.remove(p.getName()),true);
             p.setGamemode(variable.playergamemode.get(pname));
             p.getInventory().setContents(variable.playerinv.remove(pname));
             variable.playerresp.remove(pname);
+            variable.blocksecond.remove(pname);
+            variable.blockmax.remove(pname);
+            variable.playeronresp.remove(pname);
+            variable.playeronelevator.remove(pname);
+            variable.playerBlock.remove(pname);
+            variable.playerTime.remove(pname);
+            Exp exp=variable.playerLevel.remove(pname);
+            p.setExperience(exp.getExp(),exp.getLv());
+            FileUtils.writeFile("./plugins/BridgingPractise/players/"+pname+".json",JSONObject.toJSONString(variable.playerLevelJSON.remove(pname)));
             p.getFoodData().setLevel(variable.playerhunger.remove(pname));
             p.teleport(Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("exit").getString("l"))));
         }
@@ -77,7 +98,7 @@ public class EventLauncher implements Listener {
         Position pos=p.getPosition();
         if(pos.getLevel().getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
             if(pos.getY()<variable.lowy){
-                ClearBL(p);
+                ClearBL(p,false);
                 return;
             }
             int bid=Position.fromObject(new Vector3(pos.x, pos.y-1, pos.z), pos.level).getLevelBlock().getId();
@@ -94,7 +115,7 @@ public class EventLauncher implements Listener {
             }
             if(bid==variable.configjson.getJSONObject("block").getInteger("stop")){
                 p.sendTitle(variable.langjson.getString("completebridge"));
-                ClearBL(p);
+                ClearBL(p,true);
                 return;
             }
             if(bid==variable.configjson.getJSONObject("block").getInteger("backres")){
@@ -112,7 +133,7 @@ public class EventLauncher implements Listener {
                 if(!variable.playeronelevator.get(p.getName())){
                     variable.playeronelevator.put(p.getName(),true);
                     Position tppos=null;
-                    Double posx=pos.x,posy=pos.y-1,posz=pos.z;
+                    double posx=pos.x,posy=pos.y-1,posz=pos.z;
                     Level posl=pos.level;
                     for(int i = 0; i<255; i++){
                         if(i==posy){
@@ -128,7 +149,6 @@ public class EventLauncher implements Listener {
                     }else{
                         p.teleport(tppos);
                     }
-                    return;
                 }
             }else{
                 variable.playeronelevator.put(p.getName(),false);
@@ -145,8 +165,9 @@ public class EventLauncher implements Listener {
             e.setCancelled();
             if(c.equals("FALL")){
                 JSONObject json=variable.configjson.getJSONObject("pra");
+                EntityUtils.displayHurt(p);
                 if(json.getBoolean("iffalllagdmg")&&json.getFloat("falllagdmg")<=e.getDamage()){
-                    ClearBL(p);
+                    ClearBL(p,false);
                 }
                 if(json.getBoolean("falldmgtip")){
                     p.sendTitle(variable.langjson.getString("falldmgtip").replaceAll("%1",e.getDamage()+""));

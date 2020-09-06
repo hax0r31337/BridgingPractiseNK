@@ -29,6 +29,25 @@
         "time":700,
         "weather":"clear",
         "command":"bpractise",
-        "enablecmd":["bpractise"]
+        "enablecmd":["bpractise"],
+        "victoryreplace": {"id": 169,"d": 0},
+        "exp": {
+            "enable": true,
+            "scoreboard": true,
+            "levelup": true,
+            "getexp": true,
+            "timeearn": {"enable":true,"sec": 30,"exp": 5},
+            "blockearn": {"enable":true,"bls": 30,"exp": 10}
+        },
+        "scoreboard": [
+            "§fname: §a%player%",
+            "",
+            "§fLevel: §b%lowLevel%/§a%maxLevel%",
+            "§fProcess: §b%process%",
+            "",
+            "Placed: %placed%",
+            "",
+            "§6§lMineBBS.com"
+        ]
     }
 }

@@ -1,10 +1,16 @@
 package cn.ricoco.bridgingpractise.Utils;
 
 import cn.nukkit.level.Level;
+import cn.nukkit.level.Position;
+import cn.nukkit.level.particle.DestroyBlockParticle;
+import cn.nukkit.math.Vector3;
 import cn.ricoco.bridgingpractise.Main;
 import cn.nukkit.Server;
+import cn.ricoco.bridgingpractise.variable;
+import com.alibaba.fastjson.JSONObject;
 
 import java.io.File;
+import java.util.Map;
 
 import static cn.ricoco.bridgingpractise.Utils.FileUtils.ReadJar;
 
@@ -37,6 +43,18 @@ public class LevelUtils {
         } else {
             level.setRaining(false);
             level.setThundering(false);
+        }
+    }
+    public static void replaceBl(Map blockmap, int blength){
+        JSONObject vR=variable.configjson.getJSONObject("pra").getJSONObject("victoryreplace");
+        int repId=vR.getInteger("id"),repData=vR.getInteger("d");
+        for(int i=0;i<blength;i++){
+            try{
+                Position pos= (Position) blockmap.get(i);
+                pos.level.setBlockAt((int)pos.x,(int)pos.y,(int)pos.z,repId,repData);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }

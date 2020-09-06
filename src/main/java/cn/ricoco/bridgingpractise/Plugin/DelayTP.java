@@ -24,6 +24,7 @@ class TeleportP implements Runnable{
         try {
             Thread.sleep(delay);
             p.teleport(pos);
+            p.setGamemode(0);
         } catch (Exception e) {
             e.printStackTrace();
         }

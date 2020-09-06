@@ -1,7 +1,7 @@
 package cn.ricoco.bridgingpractise;
 
-import cn.nukkit.item.Item;
 import cn.nukkit.level.Position;
+import cn.ricoco.bridgingpractise.Plugin.Exp;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
@@ -23,4 +23,8 @@ public class variable {
     public static Map<String,Boolean> playeronresp=new HashMap<>();
     public static Map<String,Boolean> playeronelevator=new HashMap<>();
     public static Map<String,Integer> playergamemode=new HashMap<>();
+    public static Map<String,JSONObject> playerLevelJSON=new HashMap<>();
+    public static Map<String,Exp> playerLevel=new HashMap<>();
+    public static Map<String,Integer> playerBlock=new HashMap<>();
+    public static Map<String,Integer> playerTime=new HashMap<>();
 }

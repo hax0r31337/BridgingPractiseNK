@@ -25,6 +25,7 @@ public class Main extends PluginBase {
             e.printStackTrace();
         }
         new File("./plugins/BridgingPractise/lang/").mkdir();
+        new File("./plugins/BridgingPractise/players/").mkdir();
         if(!new File("./plugins/BridgingPractise/config.json").exists()){
             Level deflevel=Server.getInstance().getDefaultLevel();
             Position ws=deflevel.getSpawnLocation();
