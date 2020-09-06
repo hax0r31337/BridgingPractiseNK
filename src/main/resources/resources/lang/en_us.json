@@ -13,8 +13,9 @@
     "prompt":"§l%1 Blocks/s | Distance %2 | Farthest %3",
     "backresp":"§9Return to Respawn",
     "tpfailed":"§cTeleport Failed.",
-    "sbtitle": "§6BridgingPractise",
-    "timeearn": "§9+%1 Experience (Time Played)",
-    "blockearn": "§9+%1 Experience (Blocks)",
-    "levelup": "§f--------------------\n     §aLevel UP!\n       §9Level §c%1\n\n§f--------------------"
+    "sbtitle": "BridgingPractise",
+    "timeearn": "§b+%1 Experience (Time Played)",
+    "blockearn": "§b+%1 Experience (Blocks)",
+    "levelup": "§f--------------------\n     §aLevel UP!\n       §9Level §e%1\n\n§f--------------------",
+    "cantplaceon":"§cYou cam't place block over there!"
 }

@@ -64,6 +64,13 @@ public class Main extends PluginBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        JSONObject placeBlock=variable.configjson.getJSONObject("block");
+        variable.cantPlaceOn.add(placeBlock.getInteger("stop"));
+        variable.cantPlaceOn.add(placeBlock.getInteger("res"));
+        variable.cantPlaceOn.add(placeBlock.getInteger("speedup"));
+        variable.cantPlaceOn.add(placeBlock.getInteger("backres"));
+        variable.cantPlaceOn.add(placeBlock.getInteger("elevator"));
+        Server.getInstance().getLogger().info("§eBridgingPractiseNK §fBy §bRicoGG §aSuccessfully Loaded.");
     }
     @Override
     public void onDisable() {

@@ -53,6 +53,7 @@ public class RunCommand extends Command {
                     variable.playerTime.put(pname,0);
                     JSONObject plj=JSONObject.parseObject(FileUtils.readFile("./plugins/BridgingPractise/players/"+pname+".json"));
                     variable.playerLevelJSON.put(pname,plj);
+                    p.setNameTag("§7[§6"+plj.getInteger("level")+"§7]§f"+p.getName());
                     if(variable.configjson.getJSONObject("pra").getJSONObject("exp").getBoolean("enable")){
                         p.setExperience(plj.getInteger("exp"),plj.getInteger("level"));
                     }else{
@@ -81,6 +82,7 @@ public class RunCommand extends Command {
                     p.setExperience(exp.getExp(),exp.getLv());
                     FileUtils.writeFile("./plugins/BridgingPractise/players/"+pname+".json",JSONObject.toJSONString(variable.playerLevelJSON.remove(pname)));
                     p.getFoodData().setLevel(variable.playerhunger.remove(pname));
+                    p.setNameTag(p.getName());
                     p.teleport(Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("exit").getString("l"))));
                     sender.sendMessage(variable.langjson.getString("leavearena"));
                 }else{

@@ -5,6 +5,7 @@ import cn.ricoco.bridgingpractise.Plugin.Exp;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ public class variable {
     public static JSONObject langjson;
     public static JSONArray disabledmg;
     public static Double lowy;
+    public static ArrayList<Integer> cantPlaceOn=new ArrayList<>();
     public static Map<String,Map> blockpos=new HashMap<>();
     public static Map<String,Integer> blocklength=new HashMap<>();
     public static Map<String,Integer> blocksecond=new HashMap<>();

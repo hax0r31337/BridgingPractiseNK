@@ -39,11 +39,7 @@ public class EventLauncher implements Listener {
         Player p=e.getPlayer();
         String jsonPath="./plugins/BridgingPractise/players/"+p.getName()+".json";
         if(!new File(jsonPath).exists()){
-            FileUtils.writeFile(jsonPath,"{\n" +
-                    "    \"level\":0,\n" +
-                    "    \"exp\":0,\n" +
-                    "    \"place\":0\n" +
-                    "}");
+            FileUtils.writeFile(jsonPath,"{\"level\":0,\"exp\":0,\"place\":0}");
         }
         if(e.getPlayer().getPosition().getLevel().getName().equals(variable.configjson.getJSONObject("pos").getJSONObject("pra").getString("l"))){
             new DelayTP(e.getPlayer(),Position.fromObject(new Vector3(variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("x"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("y"),variable.configjson.getJSONObject("pos").getJSONObject("exit").getDouble("z")),Server.getInstance().getLevelByName(variable.configjson.getJSONObject("pos").getJSONObject("exit").getString("l"))),3000);
@@ -193,8 +189,17 @@ public class EventLauncher implements Listener {
             m.put(variable.blocklength.get(p.getName()),Position.fromObject(new Vector3(b.x,b.y,b.z),b.level));
             variable.blocklength.put(p.getName(),variable.blocklength.get(p.getName())+1);
             variable.blocksecond.put(p.getName(),variable.blocksecond.get(p.getName())+1);
+            variable.playerBlock.put(p.getName(),variable.playerBlock.get(p.getName())+1);
+            JSONObject plj=variable.playerLevelJSON.get(p.getName());
+            plj.put("place",plj.getInteger("place")+1);
+            variable.playerLevelJSON.put(p.getName(),plj);
             e.setCancelled();
-            b.level.setBlockAt((int)b.x,(int)b.y,(int)b.z,b.getId(),b.getDamage());
+            int bid=Position.fromObject(new Vector3(b.x, b.y-1, b.z), b.level).getLevelBlock().getId();
+            if(!variable.cantPlaceOn.contains(bid)&&!variable.cantPlaceOn.contains(Position.fromObject(new Vector3(b.x, b.y-2, b.z), b.level).getLevelBlock().getId())){
+                b.level.setBlockAt((int)b.x,(int)b.y,(int)b.z,b.getId(),b.getDamage());
+            }else{
+                p.sendMessage(variable.langjson.getString("cantplaceon"));
+            }
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
